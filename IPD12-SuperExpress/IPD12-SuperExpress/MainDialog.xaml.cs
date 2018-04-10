@@ -361,62 +361,7 @@ namespace IPD12_SuperExpress
             testcoordinateList.Add(new Coordinate(36.833478, -104.083633));
             testcoordinateList.Add(new Coordinate(33.236399, -89.010391));
             AddPolyline();
-            AddPushpinAndWeatherInfoToMap();
-            /*
-            coordinateList.Add(new Coordinate());
-            coordinateList.Add(new Coordinate());
-            coordinateList.Add(new Coordinate());
-            coordinateList.Add(new Coordinate());
-            coordinateList.Add(new Coordinate());
-            coordinateList.Add(new Coordinate());
-            */
-            /*
-            string postalCode = string.Empty;
-            string countryCode = string.Empty;
-            string cityName = string.Empty;
-            coordinateList.Clear();
-            //remove the distinct location
-            List<TrackDetail> tempList = trackDetailList.Distinct(new TrackDetailComparer()).ToList();
-            //remove the location who has no city name or countrycode
-            var templist = from td in tempList where td.CountryCode != string.Empty && td.City != string.Empty select td;
-            filteredtrackDetailList = templist.Reverse().ToList();
-            foreach (var td in filteredtrackDetailList)
-            {
-                postalCode = td.PostalCode;
-                countryCode = td.CountryCode;
-                cityName = td.City;
-                Coordinate tempCoordinate = GetCoordinate(postalCode, countryCode, cityName);
-                if (tempCoordinate != null)
-                {
-                    coordinateList.Add(tempCoordinate);
-                }
-                else
-                {
-                    filteredtrackDetailList.Remove(td);
-                }
-            }
-            int count = coordinateList.Count();
-            if (count > 1)
-            {
-                AddPolyline();
-                AddPushpinAndWeatherInfoToMap();
-            }
-            else if (count == 1)
-            {
-                AddPushpinAndWeatherInfoToMap();
-            }
-            double maxDistance = CaculateMaxDistance();
-            Coordinate center = GetCentralGeoCoordinate(coordinateList);
-
-            if (center != null)
-            {
-                BestCenter = new Microsoft.Maps.MapControl.WPF.Location(center.Latitude, center.Longitude);
-                myMap.Center = BestCenter;
-            }
-            BestZoomLevel = getZoomLevel(maxDistance);
-            myMap.ZoomLevel = BestZoomLevel;
-            myMap.Focus(); //allows '+' and '-' to zoom the map
-            */
+            AddPushpinAndWeatherInfoToMap();            
         }
         private void ShowShipmentRouteOnMap()
         {
@@ -475,8 +420,8 @@ namespace IPD12_SuperExpress
         private void FillWeatherInfoLable(CurrentWeatherResponse result, TrackDetail td)
         {
             Color c;
-            c = Colors.Red;
-            /*
+            c = Colors.YellowGreen;
+            
             if (result.Temperature.Value <= Globals.EXTRAMELY_COLD || result.Wind.Speed.Value >= Globals.SPEECH_HURRICANE)
             {
                 c = Colors.Red;//if there is a very terrible weather at current location,alert it with a red color.
@@ -485,23 +430,22 @@ namespace IPD12_SuperExpress
             {
                 c = Colors.Yellow;//if there is a very terrible weather at current location,alert it with a red color.
             }
-            */
+            
             c.A = 100;
             SolidColorBrush scb = new SolidColorBrush(c);
             string iconURL = "http://openweathermap.org/img/w/" + result.Weather.Icon + ".png";
             maindlg_imgDescription.Source = new BitmapImage(new Uri(iconURL));
             var targetCountry = (from tempc in countryList where tempc.Code == result.City.Country select tempc).ToList().First();
-            mainDlg_lbCountry.Background = scb;
-            //mainDlg_lbCountry.Content = result.City.Country;
+            mainDlg_lbCountry.Background = scb;            
             mainDlg_lbCountry.Content = ((Country)(targetCountry)).Name;
             mainDlg_lbCity.Background = scb;
             mainDlg_lbCity.Content = result.City.Name;
             mainDlg_lbTemp.Background = scb;
-            mainDlg_lbTemp.Content = -25 + "°C"; //Math.Round(result.Temperature.Value - 273.15) + "°C";
+            mainDlg_lbTemp.Content = Math.Round(result.Temperature.Value - 273.15) + "°C";
             mainDlg_lbWindy.Background = scb;
             mainDlg_lbWindy.Content = result.Wind.Speed.Value + "m/s";
             mainDlg_lbDescription.Background = scb;
-            mainDlg_lbDescription.Content = "Very Cold and Heavy Snow"; //result.Weather.Value;
+            mainDlg_lbDescription.Content = result.Weather.Value;
             mainDlg_lbDate.Background = scb;
             mainDlg_lbDate.Content = td.Date;
         }
@@ -530,7 +474,7 @@ namespace IPD12_SuperExpress
             CurrentWeatherResponse result = await OpenWeatherMapTestClient.CurrentWeather.GetByCoordinates(new Coordinates { Latitude = cd.Location.Latitude, Longitude = cd.Location.Longitude });
             Color c;
             customLabel.Content = string.Format("Country:{0},City:{1},{2}°C", result.City.Country, td.City,-25); //Math.Round(result.Temperature.Value - 273.15));
-            c = Colors.Red;
+            c = Colors.YellowGreen;
 
             if (result.Temperature.Value <= Globals.VERY_COLD || result.Wind.Speed.Value >= Globals.SPEECH_HURRICANE)
             {
@@ -759,16 +703,7 @@ namespace IPD12_SuperExpress
                 resultDialog.ShowDialog();
 
                 this.ShowDialog();
-                /*
-                if (resultDialog.DialogResult == true)
-                {
-                    this.DialogResult = true;
-                } 
-                else
-                {
-                    this.ShowDialog();
-                }
-                */
+                
                 lblStatus.Content = string.Empty;
             }
             catch (Exception ex)
@@ -826,14 +761,6 @@ namespace IPD12_SuperExpress
             cbProvinceStateTo.ItemsSource = provinceInSelectedCountryList;
             cbProvinceStateTo.SelectedIndex = 0;
         }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            //this.DialogResult = true;
-        }
-
-
-
         private void imgFocus_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DisplayBestView();
@@ -964,8 +891,7 @@ namespace IPD12_SuperExpress
 
         private void shipTab_tbPostalCode_GotFocus(object sender, RoutedEventArgs e)
         {            
-            shipTab_tbPostalCode.Background = Brushes.White;
-            //shipTab_tbPostalCode.SelectAll();
+            shipTab_tbPostalCode.Background = Brushes.White;            
         }    
 
     }
