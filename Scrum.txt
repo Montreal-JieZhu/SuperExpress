@@ -208,3 +208,10 @@ Each member writes down answers to 3 questions:
 3. Need assistance / figure things out
 - Nothing special.
 
+2018/04/10 Jie Zhu
+1. Done since last scrum:
+ - Prepared some part of presentation
+2. Plan until next Scrum
+ - Continue prepare presentation. 
+3. Need assistance / figure things out
+ - Nothing
