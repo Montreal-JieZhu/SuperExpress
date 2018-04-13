@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:IPD12_SuperExpress"
         xmlns:WPF="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF" x:Class="IPD12_SuperExpress.MainDialog"
         mc:Ignorable="d"
-        Title="Super Express Ver0.1" Height="877" Width="1413.507" WindowStartupLocation="CenterScreen" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
+        Title="Super Express Ver1.0" Height="877" Width="1413.507" WindowStartupLocation="CenterScreen" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
     <Grid Margin="0,0,2,14">
         <TabControl Name="tcTrackingOrShipping" HorizontalAlignment="Left" Height="708" Margin="10,70,0,0" VerticalAlignment="Top" Width="1376">
             <TabItem Name="tiTracking" Header="Tracking">
