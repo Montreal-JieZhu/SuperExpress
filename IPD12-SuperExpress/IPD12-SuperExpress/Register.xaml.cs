@@ -190,7 +190,13 @@ namespace IPD12_SuperExpress
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show("Add user failure!", "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (ex.Number == 1062)
+                {
+                    MessageBox.Show("Your UserID or email are duplicate!" , "Input error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }else
+                {
+                    MessageBox.Show("Add user failure!", "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
 
         }
